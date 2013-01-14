@@ -1,7 +1,10 @@
 namespace "Models", (Models) ->
   class Models.Room extends Backbone.Model
     initialize: ->
-      @_items = new Collections.Items
+      @_instances = new Collections.Instances
 
-    items: ->
-      @_items
+    instances: ->
+      @_instances
+
+    addInstance: (data) ->
+      @_instances.add data

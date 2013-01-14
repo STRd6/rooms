@@ -1,20 +1,4 @@
 $ ->
-  Room =
-    addDoor: (data) ->
-      $(".room").append $("<a>", data)
-
-    addItem: (data) ->
-      {x, y, width, height, imageUrl} = data
-      $(".room").append $("<div>",
-        class: "item"
-        css:
-          backgroundImage: imageUrl
-          left: x
-          top: y
-        width: width
-        height: height
-      )
-
   images = [
     13967
     17138
@@ -33,20 +17,11 @@ $ ->
     collection: items
   .render()
 
-  data = [{
-    type: "door"
-    href: "http://www.google.com"
-    width: 32
-    height: 32
-    class: "item"
-    css:
-      backgroundImage: "url(/images/middleman.png)"
-      top: "0px"
-      left: "0px"
-  }]
+  room = new Models.Room
 
-  for item in data
-    Room.addDoor(item)
+  new Views.Room
+    model: room
+  .render()
 
   # TODO: Persist Data
   # TODO: Toggle play and edit modes
@@ -110,7 +85,7 @@ $ ->
       else
         activeItem.css("backgroundImage")
 
-      Room.addItem
+      room.addInstance
         x: x
         y: y
         width: activeItem.width()

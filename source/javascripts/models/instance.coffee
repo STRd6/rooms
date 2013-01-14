@@ -6,3 +6,9 @@ namespace "Models", (Models) ->
       width: 32
       height: 32
       imageId: 1
+
+    initialize: (options) ->
+      @item = options.item
+
+    imageUrl: =>
+      @get "imageUrl"
