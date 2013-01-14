@@ -23,21 +23,15 @@ $ ->
     9032
   ]
 
-  addToPalette = (id) ->
-    container = $ "<div>",
-      class: "itemContainer"
-
-    i = id % 4
-
-    container.append $("<img>",
-      class: "item"
-      src: "http://#{i}.pixiecdn.com/sprites/#{id}/original.png"
-    )
-
-    $(".itemPalette").append container
-
+  items = new Collections.Items
   for id in images
-    addToPalette(id)
+    items.add
+      spriteId: id
+
+  # TODO: Manage appending to correct element
+  new Views.ItemPalette
+    collection: items
+  .render()
 
   data = [{
     type: "door"
@@ -54,6 +48,11 @@ $ ->
   for item in data
     Room.addDoor(item)
 
+  # TODO: Persist Data
+  # TODO: Toggle play and edit modes
+  # TODO: Undo / Redo
+  # TODO: Add select, group, delete tools
+  # TODO: Make all this dragging a "move" tool
   activeItem = null
   roomItem = null
   draggy = null
