@@ -11,14 +11,15 @@ namespace "Views", (Views) ->
       {x, y, width, height} = instance.attributes
 
       html = JST["instance"]()
-      instance = $(html).css
+      instanceElement = $(html).css
         backgroundImage: instance.imageUrl()
         left: x
         top: y
         width: width
         height: height
+      .data("model", instance)
 
-      @$el.append instance
+      @$el.append instanceElement
 
     render: =>
       @$el.empty()

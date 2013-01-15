@@ -70,9 +70,15 @@ $ ->
         left: e.pageX
 
     if roomItem
+      x = e.pageX - offset.left
+      y = e.pageY - offset.top
+      roomItem.data("model").set
+        x: x
+        y: y
+
       roomItem.css
-        top: e.pageY - offset.top
-        left: e.pageX - offset.left
+        top: y
+        left: x
 
   $(document.body).on "mouseup", (e) ->
     if activeItem
