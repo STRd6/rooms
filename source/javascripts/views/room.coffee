@@ -6,6 +6,10 @@ namespace "Views", (Views) ->
       @collection = @model.instances()
 
       @collection.on "add", @instanceAdded
+      @collection.on "remove", @instanceRemoved
+
+    instanceRemoved: (instance) =>
+      @$("[cid=#{instance.cid}]").remove()
 
     instanceAdded: (instance) =>
       {x, y, width, height} = instance.attributes
@@ -18,6 +22,7 @@ namespace "Views", (Views) ->
         width: width
         height: height
       .data("model", instance)
+      .attr("cid", instance.cid)
 
       @$el.append instanceElement
 
