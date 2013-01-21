@@ -18,25 +18,16 @@ $ ->
     items: items
     room: room
 
-  new Views.Room
-    model: room
-  .render()
-
   # TODO: Undo / Redo
   # TODO: Add select, group, delete tools
   # TODO: Make all this dragging a "move" tool
   # TODO: Localize events from document to editor
   activeItem = null
-  roomItem = null
   draggy = null
-  offset = {left: 0, top: 0}
-  start = {left: 0, top: 0}
 
   getPos = (event) ->
-    e = event.originalEvent.touches?[0] || event
-
-    y: e.pageY
-    x: e.pageX
+    y: event.pageY
+    x: event.pageX
 
   initDraggy = (element, e) ->
     p = getPos(e)
@@ -50,28 +41,12 @@ $ ->
         left: p.x
         zIndex: 9000
 
-  # Dragging
-  $(".room").on "mousedown touchstart", ".item", (e) ->
-    e.preventDefault()
 
-    p = getPos(e)
-
-    roomItem = $(e.currentTarget)
-
-    offset = {
-      top: p.y - parseInt(roomItem.css('top'), 10)
-      left: p.x - parseInt(roomItem.css('left'), 10)
-    }
-
-  $(".itemPalette").on "mousedown touchstart", ".item", (e) ->
-    e.preventDefault()
-
+  $(".itemPalette").on "movestart", ".item", (e) ->
     activeItem = $(e.currentTarget)
     initDraggy(activeItem.parent(), e)
 
-    # offset = activeItem.offset()
-
-  $(document).on "mousemove touchmove", (e) ->
+  $(document).on "move", (e) ->
     p = getPos(e)
 
     if activeItem
@@ -79,21 +54,11 @@ $ ->
         top: p.y
         left: p.x
 
-    if roomItem
-      x = p.x - offset.left
-      y = p.y - offset.top
-      roomItem.data("model").set
-        x: x
-        y: y
-
-      roomItem.css
-        top: y
-        left: x
-
-  $(document.body).on "mouseup touchend", (e) ->
+  $(document.body).on "moveend", (e) ->
     p = getPos(e)
 
     if activeItem
+      console.log $(".room").offset(), p
       {left, top} = $(".room").offset()
       x = p.x - left
       y = p.y - top
@@ -112,11 +77,10 @@ $ ->
 
       draggy.remove()
 
-    if roomItem
-      trashOffset = $(".trash").offset()
-      if p.x > trashOffset.left and p.y > trashOffset.top
-        roomItem.data("model").destroy()
+    # if roomItem
+    #   trashOffset = $(".trash").offset()
+    #   if p.x > trashOffset.left and p.y > trashOffset.top
+    #     roomItem.data("model").destroy()
 
     activeItem = null
-    roomItem = null
     draggy = null

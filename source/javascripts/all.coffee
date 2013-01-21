@@ -1,3 +1,5 @@
+#= require jquery.event.move
+
 #= require namespace
 #= require underscore
 #= require backbone

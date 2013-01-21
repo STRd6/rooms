@@ -31,6 +31,4 @@ namespace "Views", (Views) ->
 
       @collection.each @instanceAdded
 
-      $("body").append @$el
-
       return this
