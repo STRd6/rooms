@@ -6,6 +6,7 @@ namespace "Models", (Models) ->
       # Currently assuming local storage
       @_instances.fetch()
 
+      # TODO: Modularize autosaving
       @_instances.on "change", =>
         @_instances.each (instance) ->
           instance.save()
