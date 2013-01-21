@@ -4,6 +4,7 @@ namespace "Views", (Views) ->
 
     events:
       "move .room .item": "moveItem"
+      "moveend .room .item": "releaseItem"
 
     initialize: ->
       {items, room} = @options
@@ -39,8 +40,15 @@ namespace "Views", (Views) ->
         top: y
         left: x
 
+    releaseItem: (event) ->
+      item = $(event.currentTarget)
+
+      # Check for dumper
+      trashOffset = @$(".trash").offset()
+      if event.pageX > trashOffset.left and event.pageY > trashOffset.top
+        item.data("model").destroy()
+
     render: ->
       # TODO: Add toolbar
-      # TODO: Add dragging code
 
       return this

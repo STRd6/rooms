@@ -77,10 +77,5 @@ $ ->
 
       draggy.remove()
 
-    # if roomItem
-    #   trashOffset = $(".trash").offset()
-    #   if p.x > trashOffset.left and p.y > trashOffset.top
-    #     roomItem.data("model").destroy()
-
     activeItem = null
     draggy = null
