@@ -1,6 +1,7 @@
 namespace "Models", (Models) ->
   class Models.Room extends Backbone.Model
     initialize: ->
+      # TODO: Load from data
       @_instances = new Collections.Instances
       # Currently assuming local storage
       @_instances.fetch()

@@ -12,22 +12,20 @@ $ ->
     items.add
       spriteId: id
 
-  # TODO: Manage appending to correct element
-  new Views.ItemPalette
-    collection: items
-  .render()
-
   room = new Models.Room
+
+  new Views.Editor
+    items: items
+    room: room
 
   new Views.Room
     model: room
   .render()
 
-  # TODO: Persist Data
-  # TODO: Toggle play and edit modes
   # TODO: Undo / Redo
   # TODO: Add select, group, delete tools
   # TODO: Make all this dragging a "move" tool
+  # TODO: Localize events from document to editor
   activeItem = null
   roomItem = null
   draggy = null
@@ -35,27 +33,31 @@ $ ->
   start = {left: 0, top: 0}
 
   initDraggy = (element, e) ->
+    p = e.originalEvent.touches[0] || e
+
     draggy = element
       .clone()
       .appendTo("body").css
         opacity: 0.5
         position: "absolute"
-        top: e.pageY
-        left: e.pageX
+        top: p.pageY
+        left: p.pageX
         zIndex: 9000
 
   # Dragging
-  $(".room").on "mousedown", ".item", (e) ->
+  $(".room").on "mousedown touchstart", ".item", (e) ->
     e.preventDefault()
+
+    p = e.originalEvent.touches[0] || e
 
     roomItem = $(e.currentTarget)
 
     offset = {
-      top: e.pageY - parseInt(roomItem.css('top'), 10)
-      left: e.pageX - parseInt(roomItem.css('left'), 10)
+      top: p.pageY - parseInt(roomItem.css('top'), 10)
+      left: p.pageX - parseInt(roomItem.css('left'), 10)
     }
 
-  $(".itemPalette").on "mousedown", ".item", (e) ->
+  $(".itemPalette").on "mousedown touchstart", ".item", (e) ->
     e.preventDefault()
 
     activeItem = $(e.currentTarget)
@@ -63,15 +65,17 @@ $ ->
 
     # offset = activeItem.offset()
 
-  $(document).on "mousemove", (e) ->
+  $(document).on "mousemove touchmove", (e) ->
+    p = e.originalEvent.touches[0] || e
+
     if activeItem
       draggy.css
-        top: e.pageY
-        left: e.pageX
+        top: p.pageY
+        left: p.pageX
 
     if roomItem
-      x = e.pageX - offset.left
-      y = e.pageY - offset.top
+      x = p.pageX - offset.left
+      y = p.pageY - offset.top
       roomItem.data("model").set
         x: x
         y: y
@@ -80,11 +84,13 @@ $ ->
         top: y
         left: x
 
-  $(document.body).on "mouseup", (e) ->
+  $(document.body).on "mouseup touchend", (e) ->
+    p = e.originalEvent.touches[0] || e
+
     if activeItem
       {left, top} = $(".room").offset()
-      x = e.pageX - left
-      y = e.pageY - top
+      x = p.pageX - left
+      y = p.pageY - top
 
       imageUrl = if src = activeItem.attr('src')
         "url(#{src})"
@@ -102,7 +108,7 @@ $ ->
 
     if roomItem
       trashOffset = $(".trash").offset()
-      if e.pageX > trashOffset.left and e.pageY > trashOffset.top
+      if p.pageX > trashOffset.left and p.pageY > trashOffset.top
         roomItem.data("model").destroy()
 
     activeItem = null
