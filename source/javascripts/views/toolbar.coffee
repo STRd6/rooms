@@ -2,6 +2,11 @@ namespace "Views", (Views) ->
   class Views.Toolbar extends Backbone.View
     className: "toolbar"
 
+    initialize: ->
+
+    currentTool: ->
+      @collection.first()
+
     render: ->
       @$el.empty()
 

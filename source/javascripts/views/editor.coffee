@@ -3,8 +3,9 @@ namespace "Views", (Views) ->
     className: "editor"
 
     events:
-      "move .room .item": "moveItem"
-      "moveend .room .item": "releaseItem"
+      "movestart .room .item": "toolStart"
+      "move .room .item": "toolMove"
+      "moveend .room .item": "toolEnd"
 
     initialize: ->
       {items, room} = @options
@@ -12,6 +13,13 @@ namespace "Views", (Views) ->
       new Views.ItemPalette
         collection: items
       .render().$el.appendTo(@$el)
+
+      tools = new Collections.Tools [
+        Models.Tool.tools.Move
+      ]
+      (@toolbar = new Views.Toolbar
+        collection: tools
+      ).render().$el.appendTo(@$el)
 
       new Views.Room
         model: room
@@ -23,26 +31,31 @@ namespace "Views", (Views) ->
 
       @$el.appendTo("body")
 
-    moveItem: (event) ->
-      roomItem = $(event.currentTarget)
+    currentTool: ->
+      @toolbar.currentTool()
 
-      offset = roomItem.parent().offset()
-
-      #TODO Initail touch Offset
-      x = event.pageX - offset.left
-      y = event.pageY - offset.top
-
-      roomItem.data("model").set
-        x: x
-        y: y
-
-      roomItem.css
-        top: y
-        left: x
-
-    releaseItem: (event) ->
+    toolStart: (event) ->
       item = $(event.currentTarget)
 
+      @currentTool().start
+        event: event
+        item: item
+
+    toolMove: (event) ->
+      item = $(event.currentTarget)
+
+      @currentTool().move
+        event: event
+        item: item
+
+    toolEnd: (event) ->
+      item = $(event.currentTarget)
+
+      @currentTool().end
+        event: event
+        item: item
+
+      # TODO: Generalize drop targets
       # Check for dumper
       trashOffset = @$(".trash").offset()
       if event.pageX > trashOffset.left and event.pageY > trashOffset.top
