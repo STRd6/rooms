@@ -132,6 +132,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-filter
+  cornerstone-source
   editor_base!
   haml
   haml_coffee_assets

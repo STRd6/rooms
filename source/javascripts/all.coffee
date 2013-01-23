@@ -1,4 +1,7 @@
+#= require cornerstone
+
 #= require jquery.event.move
+#= require jquery.take_class
 
 #= require namespace
 #= require underscore

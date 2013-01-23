@@ -1,5 +1,6 @@
 source :rubygems
 
+gem "cornerstone-source"
 gem "coffee-filter"
 gem "haml"
 gem 'haml_coffee_assets'

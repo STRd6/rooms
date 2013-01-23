@@ -12,3 +12,6 @@ namespace "Models", (Models) ->
 
     imageUrl: =>
       @get "imageUrl"
+
+    interact: ->
+      console.log "Hella interactive"

@@ -1,3 +1,5 @@
+backgroundColor = #BBB
+
 .item
   pointer-events auto
 
@@ -8,12 +10,13 @@
   pointer-events none
 
 .itemPalette
+  background-color backgroundColor
   position absolute
   left 0
   top 0
 
   overflow hidden
-  width 128px
+  width 98px
   z-index 1
 
 .itemContainer
@@ -24,6 +27,7 @@
   padding 4px
 
 .toolbar
+  background-color backgroundColor
   bottom 0
   left 0
 
@@ -35,14 +39,15 @@
   position absolute
 
 .tool
-  border-color transparent
-  border-width
+  border 2px solid transparent
   display inline-block
+
+  pointer-events auto
 
   height 32px
   width 32px
 
-  &:active
+  &.active
     border-color blue
 
 .trash

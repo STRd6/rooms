@@ -8,8 +8,17 @@ namespace "Models", (Models) ->
       start: ->
       move: ->
       end: ->
+      tap: ->
 
     initialize: ->
+      [
+        "start"
+        "move"
+        "end"
+        "tap"
+      ].each (action) =>
+        @[action] = (args...) ->
+          @get(action)(args...)
 
     src: ->
       @get('icon')
@@ -17,16 +26,11 @@ namespace "Models", (Models) ->
     name: ->
       @get('name')
 
-    start: (args...) ->
-      @get('start')(args...)
-
-    move: (args...) ->
-      @get('move')(args...)
-
-    end: (args...) ->
-      @get('end')(args...)
-
   Models.Tool.tools = {
+    Interact:
+      tap: ({item}) ->
+        item.data("model").interact()
+
     Move:
       start: ({event, item}) ->
         offset = item.offset()

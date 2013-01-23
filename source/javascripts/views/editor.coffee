@@ -6,6 +6,8 @@ namespace "Views", (Views) ->
       "movestart .room .item": "toolStart"
       "move .room .item": "toolMove"
       "moveend .room .item": "toolEnd"
+      "mousedown .room .item": "toolTap" #TODO: Abstract tap event
+      "touchstart .room .item": "toolTap" #TODO: Abstract tap event
 
     initialize: ->
       {items, room} = @options
@@ -16,6 +18,7 @@ namespace "Views", (Views) ->
 
       tools = new Collections.Tools [
         Models.Tool.tools.Move
+        Models.Tool.tools.Interact
       ]
       (@toolbar = new Views.Toolbar
         collection: tools
@@ -33,6 +36,13 @@ namespace "Views", (Views) ->
 
     currentTool: ->
       @toolbar.currentTool()
+
+    toolTap: (event) ->
+      item = $(event.currentTarget)
+
+      @currentTool().tap
+        event: event
+        item: item
 
     toolStart: (event) ->
       item = $(event.currentTarget)
