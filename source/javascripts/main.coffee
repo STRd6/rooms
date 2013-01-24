@@ -1,22 +1,27 @@
 $ ->
-  images = [
+  items = [
     13967
     17138
     8051
     8764
     9032
-  ]
-
-  items = new Collections.Items
-  for id in images
-    items.add
+  ].map (id) ->
+    Models.Item
       spriteId: id
 
-  room = new Models.Room
+  # TODO: Storage
+  instances = _.uniq((localStorage.Instances || "").split(",")).map (id) ->
+    Models.Instance JSON.parse(localStorage["Instances-#{id}"])
+  room = Models.Room
+    instances: instances
 
-  new Views.Editor
-    items: items
-    room: room
+  roomElement = $(JST['room']())
+  ko.applyBindings room, roomElement.get(0)
+  $('body').append roomElement
+
+  # new Views.Editor
+  #   items: items
+  #   room: room
 
   # TODO: Undo / Redo
   # TODO: Add select, group, delete tools

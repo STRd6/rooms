@@ -1,17 +1,21 @@
+#= require models/base
+
 namespace "Models", (Models) ->
-  class Models.Instance extends Backbone.Model
-    defaults:
+  Models.Instance = (I={}) ->
+    Object.reverseMerge I,
       x: 0
       y: 0
       width: 32
       height: 32
       imageId: 1
 
-    initialize: (options) ->
-      @item = options.item
+    self = Models.Base(I).extend
+      imageUrl: ->
+        I.imageUrl
 
-    imageUrl: =>
-      @get "imageUrl"
+      interact: ->
+        console.log "Hella interactive"
 
-    interact: ->
-      console.log "Hella interactive"
+    self.observe "x", "y", "width", "height"
+
+    return self

@@ -1,7 +1,8 @@
 namespace "Models", (Models) ->
-  class Models.Item extends Backbone.Model
+  Models.Item = (I) ->
+
     src: =>
-      {spriteId} = @attributes
+      {spriteId} = I
       i = spriteId % 4
 
       return "http://#{i}.pixiecdn.com/sprites/#{spriteId}/original.png"

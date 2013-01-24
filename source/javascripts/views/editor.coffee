@@ -1,7 +1,5 @@
 namespace "Views", (Views) ->
-  class Views.Editor extends Backbone.View
-    className: "editor"
-
+  Views.Editor = (I) ->
     events:
       "movestart .room .item": "toolStart"
       "move .room .item": "toolMove"
@@ -72,6 +70,5 @@ namespace "Views", (Views) ->
         item.data("model").destroy()
 
     render: ->
-      # TODO: Add toolbar
 
       return this

@@ -1,8 +1,8 @@
 #= require models/base
 
 namespace "Models", (Models) ->
-  class Models.Tool extends Models.Base
-    defaults:
+  Models.Tool = (I) ->
+    Object.reverseMerge I,
       name: "Move"
       icon: ""
       start: ->
@@ -10,26 +10,34 @@ namespace "Models", (Models) ->
       end: ->
       tap: ->
 
-    initialize: ->
-      [
-        "start"
-        "move"
-        "end"
-        "tap"
-      ].each (action) =>
-        @[action] = (args...) ->
-          @get(action)(args...)
+    self = Models.Base(I).extend
+      src: ->
+        I.icon
 
-    src: ->
-      @get('icon')
+      name: ->
+        I.name
 
-    name: ->
-      @get('name')
+    [
+      "start"
+      "move"
+      "end"
+      "tap"
+    ].each (action) ->
+      self[action] = (args...) ->
+        I[action](args...)
+
+    return self
 
   Models.Tool.tools = {
     Interact:
       tap: ({item}) ->
         item.data("model").interact()
+
+    Text:
+      tap: ({item, editor}) ->
+        instance = item.data("model")
+
+        editor.editText(instance)
 
     Move:
       start: ({event, item}) ->
@@ -59,4 +67,4 @@ namespace "Models", (Models) ->
   }
 
   for name, data of Models.Tool.tools
-    Models.Tool.tools[name] = new Models.Tool data
+    Models.Tool.tools[name] = Models.Tool data

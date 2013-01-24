@@ -1,4 +1,9 @@
 namespace "Models", (Models) ->
-  class Models.Base extends Backbone.Model
-    @new = (args...) ->
-      new @ args...
+  Models.Base = (I={})->
+
+    self = Core(I).extend
+      observe: (args...) ->
+        args.each (key) ->
+          self[key] = ko.observable(I[key])
+
+    return self
