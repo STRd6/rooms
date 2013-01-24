@@ -1,0 +1,2 @@
+.toolbar(data-bind="foreach: tools")
+  .tool>

@@ -9,19 +9,21 @@ namespace "Views", (Views) ->
 
     {items, room} = I
 
-    # tools = new Collections.Tools [
-    #   Models.Tool.tools.Move
-    #   Models.Tool.tools.Interact
-    # ]
-    # (@toolbar = new Views.Toolbar
-    #   collection: tools
-    # ).render().$el.appendTo(@$el)
-
     element = $ "<div>",
       class: "editor"
 
     Views.Room
       model: room
+    .appendTo(element)
+
+    tools = [
+      Models.Tool.tools.Move
+      Models.Tool.tools.Interact
+    ]
+
+    toolbar = Views.Toolbar
+      model:
+        tools: tools
     .appendTo(element)
 
     Views.ItemPalette

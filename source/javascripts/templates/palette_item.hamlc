@@ -1,2 +1,0 @@
-.itemContainer
-  %img.item(src=@src)
