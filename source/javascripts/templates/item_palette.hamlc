@@ -1,0 +1,3 @@
+.itemPalette(data-bind="foreach: items")
+  .itemContainer>
+    %img.item(data-bind="attr:{src: src()}")

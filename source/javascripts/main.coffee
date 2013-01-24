@@ -15,13 +15,9 @@ $ ->
   room = Models.Room
     instances: instances
 
-  roomElement = $(JST['room']())
-  ko.applyBindings room, roomElement.get(0)
-  $('body').append roomElement
-
-  # new Views.Editor
-  #   items: items
-  #   room: room
+  Views.Editor
+    items: items
+    room: room
 
   # TODO: Undo / Redo
   # TODO: Add select, group, delete tools
