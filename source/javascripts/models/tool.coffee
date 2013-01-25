@@ -31,39 +31,32 @@ namespace "Models", (Models) ->
   Models.Tool.tools = {
     Interact:
       tap: ({item}) ->
-        item.data("model").interact()
+        item.interact()
 
     Text:
       tap: ({item, editor}) ->
-        instance = item.data("model")
-
-        editor.editText(instance)
+        editor.editText(item)
 
     Move:
-      start: ({event, item}) ->
-        offset = item.offset()
+      start: ({event, element}) ->
+        offset = element.offset()
 
         x = event.pageX - offset.left
         y = event.pageY - offset.top
 
-        item.data "initialOffset",
+        element.data "initialOffset",
           x: x
           y: y
 
-      move: ({event, item}) ->
-        offset = item.parent().offset()
-        initialOffset = item.data("initialOffset") or Point.ZERO
+      move: ({event, element, item}) ->
+        offset = element.parent().offset()
+        initialOffset = element.data("initialOffset") or Point.ZERO
 
         x = event.pageX - offset.left - initialOffset.x
         y = event.pageY - offset.top - initialOffset.y
 
-        item.data("model").set
-          x: x
-          y: y
-
-        item.css
-          top: y
-          left: x
+        item.x(x)
+        item.y(y)
   }
 
   for name, data of Models.Tool.tools

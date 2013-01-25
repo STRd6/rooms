@@ -1,12 +1,5 @@
 namespace "Views", (Views) ->
   Views.Editor = (I) ->
-    events:
-      "movestart .room .item": "toolStart"
-      "move .room .item": "toolMove"
-      "moveend .room .item": "toolEnd"
-      "mousedown .room .item": "toolTap" #TODO: Abstract tap event
-      "touchstart .room .item": "toolTap" #TODO: Abstract tap event
-
     {items, room} = I
 
     element = $ "<div>",
@@ -21,9 +14,11 @@ namespace "Views", (Views) ->
       Models.Tool.tools.Interact
     ]
 
-    toolbar = Views.Toolbar
-      model:
-        tools: tools
+    toolbar = Models.Toolbar
+      tools: tools
+
+    Views.Toolbar
+      model: toolbar
     .appendTo(element)
 
     Views.ItemPalette
@@ -35,42 +30,44 @@ namespace "Views", (Views) ->
 
     element.appendTo("body")
 
+    passToCurrentTool = (name) ->
+      return (event) ->
+        target = $(event.currentTarget)
+        item = ko.dataFor(this)
+
+        self.currentTool()[name]
+          element: target
+          event: event
+          item: item
+
     self = Core(I).extend
       currentTool: ->
-        @toolbar.currentTool()
+        toolbar.activeTool()
 
-      toolTap: (event) ->
-        item = $(event.currentTarget)
-
-        @currentTool().tap
-          event: event
-          item: item
-
-      toolStart: (event) ->
-        item = $(event.currentTarget)
-
-        @currentTool().start
-          event: event
-          item: item
-
-      toolMove: (event) ->
-        item = $(event.currentTarget)
-
-        @currentTool().move
-          event: event
-          item: item
+      toolTap: passToCurrentTool("tap")
+      toolStart: passToCurrentTool("start")
+      toolMove: passToCurrentTool("move")
 
       toolEnd: (event) ->
-        item = $(event.currentTarget)
+        target = $(event.currentTarget)
+        item = ko.dataFor(this)
 
-        @currentTool().end
+        self.currentTool().end
+          element: target
           event: event
           item: item
 
         # TODO: Generalize drop targets
         # Check for dumper
-        trashOffset = @$(".trash").offset()
+        trashOffset = element.find(".trash").offset()
         if event.pageX > trashOffset.left and event.pageY > trashOffset.top
-          item.data("model").destroy()
+          room.removeInstance(item)
+
+    # Bind some events
+    selector = ".room .item"
+    element.on "movestart", selector, self.toolStart
+    element.on "move", selector, self.toolMove
+    element.on "moveend", selector, self.toolEnd
+    element.on "touchstart mousedown", selector, self.toolTap
 
     return self

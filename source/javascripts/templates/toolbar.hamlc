@@ -1,2 +1,2 @@
 .toolbar(data-bind="foreach: tools")
-  .tool>
+  .tool(data-bind="css: { active: $data == $root.activeTool() }, click: $root.activeTool")>
