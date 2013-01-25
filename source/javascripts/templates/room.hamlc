@@ -1,2 +1,4 @@
-.room(data-bind="foreach: instances")
-  .instance.item(data-bind="style: {top: (y() + 'px'), left: (x() + 'px'), width: (width() + 'px'), height: (height() + 'px'), backgroundImage: imageUrl()}")
+.room
+  %input.name(data-bind="value: name")
+  .instances(data-bind="foreach: instances")
+    .instance.item(data-bind="style: {top: (y() + 'px'), left: (x() + 'px'), width: (width() + 'px'), height: (height() + 'px'), backgroundImage: imageUrl()}")

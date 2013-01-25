@@ -13,7 +13,7 @@ $ ->
   # TODO: Storage
   instances = _.uniq((localStorage.Instances || "").split(",")).map (id) ->
     Instance JSON.parse(localStorage["Instances-#{id}"])
-  room = Room
+  window.room = Room
     instances: instances
 
   Views.Editor
