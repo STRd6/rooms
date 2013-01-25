@@ -16,6 +16,13 @@ namespace "Models", (Models) ->
       interact: ->
         console.log "Hella interactive"
 
+      toJSON: ->
+        x: self.x()
+        y: self.y()
+        width: self.width()
+        height: self.height()
+        imageUrl: self.imageUrl()
+
     self.observe "x", "y", "width", "height"
 
     return self

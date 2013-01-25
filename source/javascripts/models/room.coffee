@@ -7,5 +7,9 @@ namespace "Models", (Models) ->
         self.instances.push(instance)
       removeInstance: (instance) ->
         self.instances.remove(instance)
+      toJSON: ->
+        self.instances().invoke "toJSON"
+
+    self.observe "name"
 
     return self
