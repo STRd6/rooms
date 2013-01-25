@@ -1,4 +1,5 @@
 $ ->
+  {Room, Instance, Item} = Models
   items = [
     13967
     17138
@@ -6,13 +7,13 @@ $ ->
     8764
     9032
   ].map (id) ->
-    Models.Item
+    Item
       spriteId: id
 
   # TODO: Storage
   instances = _.uniq((localStorage.Instances || "").split(",")).map (id) ->
-    Models.Instance JSON.parse(localStorage["Instances-#{id}"])
-  room = Models.Room
+    Instance JSON.parse(localStorage["Instances-#{id}"])
+  room = Room
     instances: instances
 
   Views.Editor
@@ -69,7 +70,7 @@ $ ->
       else
         activeItem.css("backgroundImage")
 
-      room.addInstance
+      room.addInstance Instance
         x: x
         y: y
         width: activeItem.width()
