@@ -1,3 +1,5 @@
+toolbarHeight = 40px
+
 .item, .tool, input, button, textarea, select
   pointer-events auto
 
@@ -29,9 +31,9 @@
   margin 4px
   padding 4px
 
-.instanceText
+.instanceText, .instanceLink
   position absolute
-  bottom 0
+  bottom toolbarHeight
   left 0
   right 0
   width roomWidth
@@ -43,14 +45,15 @@
 
 .toolbar
   background-color backgroundColor
+  box-sizing border-box
   bottom 0
   left 0
 
   display inline-block
 
-  height 40px
+  height toolbarHeight
 
-  padding 4px
+  padding 2px 4px
   position absolute
 
 .tool

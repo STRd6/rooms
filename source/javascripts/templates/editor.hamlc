@@ -8,3 +8,7 @@
   .instanceText(data-bind="with: textInstance")
     %textarea(data-bind="value: text")
     %button(data-bind="click: $root.done") Done
+
+  .instanceLink(data-bind="with: linkInstance")
+    %select(data-bind="options: $root.rooms, value: link, optionsCaption: 'Choose a room...', optionsText: 'name', optionsValue: 'uuid'")
+    %button(data-bind="click: $root.done") Done

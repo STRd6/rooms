@@ -14,13 +14,11 @@ namespace "Models", (Models) ->
         self.instances.push(instance)
       removeInstance: (instance) ->
         self.instances.remove(instance)
-      uuid: ->
-        I.uuid
       toJSON: ->
         name: self.name()
         uuid: self.uuid()
         instances: self.instances().invoke "toJSON"
 
-    self.observe "name"
+    self.observe "name", "uuid"
 
     return self

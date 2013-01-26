@@ -38,9 +38,13 @@ namespace "Models", (Models) ->
       editText: (instance) ->
         self.textInstance(instance)
 
+      editLink: (instance) ->
+        self.linkInstance(instance)
+
       save: ->
         roomData = ko.toJS(rooms)
         dataStore.set "rooms", roomData
+        console.log roomData
 
       newRoom: ->
         newRoom = Models.Room()
@@ -50,6 +54,7 @@ namespace "Models", (Models) ->
 
       done: ->
         self.textInstance(null)
+        self.linkInstance(null)
 
       toolbar: toolbar
       room: room
@@ -78,6 +83,6 @@ namespace "Models", (Models) ->
         if event.pageX > trashOffset.left and event.pageY > trashOffset.top
           room().removeInstance(instance)
 
-    self.observe "textInstance"
+    self.observe "textInstance", "linkInstance"
 
     return self

@@ -16,6 +16,9 @@ namespace "Models", (Models) ->
       interact: ->
         if text = self.text()
           alert text
+        else if link = self.link()
+          # GOTO Link
+          console.log "GOTO: #{link}"
 
       toJSON: ->
         x: self.x()
@@ -24,7 +27,15 @@ namespace "Models", (Models) ->
         height: self.height()
         imageUrl: self.imageUrl()
         text: self.text()
+        link: self.link()
 
-    self.observe "x", "y", "width", "height", "text"
+    self.observe(
+      "x"
+      "y"
+      "width"
+      "height"
+      "link"
+      "text"
+    )
 
     return self
