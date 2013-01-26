@@ -1,7 +1,9 @@
 .editor
   .actions
-    %input.name(data-bind="value: room.name")
+    %input.name(data-bind="value: room().name")
     %button(data-bind="click: save") Save
+    %select(data-bind="options: rooms, value: room, optionsText: 'name'")
+    %button(data-bind="click: newRoom") New
 
   .instanceText(data-bind="with: textInstance")
     %textarea(data-bind="value: text")

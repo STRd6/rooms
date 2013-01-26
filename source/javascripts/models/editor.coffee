@@ -4,12 +4,13 @@ namespace "Models", (Models) ->
   Models.Editor = (I={}) ->
 
     dataStore = Local.new "LOCODAT"
-    roomData = dataStore.get("rooms") or {}
-    roomIds = Object.keys roomData
+    roomData = dataStore.get("rooms") or []
 
-    room = Models.Room roomData[roomIds.first()]
+    rooms = ko.observableArray roomData.map Models.Room
+    unless rooms().length
+      rooms.push Models.Room()
 
-    debugger
+    room = ko.observable rooms().first()
 
     tools = [
       "Move"
@@ -38,14 +39,21 @@ namespace "Models", (Models) ->
         self.textInstance(instance)
 
       save: ->
-        roomData[room.uuid()] = room.toJSON()
+        roomData = ko.toJS(rooms)
         dataStore.set "rooms", roomData
+
+      newRoom: ->
+        newRoom = Models.Room()
+
+        rooms.push(newRoom)
+        self.room(newRoom)
 
       done: ->
         self.textInstance(null)
 
       toolbar: toolbar
       room: room
+      rooms: rooms
 
       currentTool: ->
         self.toolbar.activeTool()
@@ -68,7 +76,7 @@ namespace "Models", (Models) ->
         # Check for dumper
         trashOffset = self.element.find(".trash").offset()
         if event.pageX > trashOffset.left and event.pageY > trashOffset.top
-          room.removeInstance(instance)
+          room().removeInstance(instance)
 
     self.observe "textInstance"
 

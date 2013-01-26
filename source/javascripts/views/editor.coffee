@@ -82,7 +82,7 @@ namespace "Views", (Views) ->
         else
           activeItem.css("backgroundImage")
 
-        editor.room.addInstance Instance
+        editor.room().addInstance Instance
           x: x
           y: y
           width: activeItem.width()
