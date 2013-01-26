@@ -1,0 +1,4 @@
+.editor
+  .actions
+    %input.name(data-bind="value: room.name")
+    %button.save(data-bind="click: save") Save

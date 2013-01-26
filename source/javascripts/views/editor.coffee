@@ -2,8 +2,13 @@ namespace "Views", (Views) ->
   Views.Editor = (I) ->
     {items, room} = I
 
-    element = $ "<div>",
-      class: "editor"
+    element = $(JST['editor']())
+    model =
+      room: room
+      save: ->
+        console.log room.toJSON()
+
+    ko.applyBindings model, element.get(0)
 
     Views.Room
       model: room
