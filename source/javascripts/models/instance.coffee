@@ -14,7 +14,8 @@ namespace "Models", (Models) ->
         I.imageUrl
 
       interact: ->
-        console.log "Hella interactive"
+        if text = self.text()
+          alert text
 
       toJSON: ->
         x: self.x()
@@ -22,7 +23,8 @@ namespace "Models", (Models) ->
         width: self.width()
         height: self.height()
         imageUrl: self.imageUrl()
+        text: self.text()
 
-    self.observe "x", "y", "width", "height"
+    self.observe "x", "y", "width", "height", "text"
 
     return self

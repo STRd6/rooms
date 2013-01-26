@@ -1,7 +1,8 @@
 .editor
   .actions
     %input.name(data-bind="value: room.name")
-    %button.save(data-bind="click: save") Save
+    %button(data-bind="click: save") Save
 
-  .textItem(data-bind="with: textItem")
+  .instanceText(data-bind="with: textInstance")
     %textarea(data-bind="value: text")
+    %button(data-bind="click: $root.done") Done

@@ -3,6 +3,10 @@ namespace "Models", (Models) ->
     Object.reverseMerge I,
       name: "Untitled"
       uuid: Math.uuid()
+      instances: []
+
+    # Re-hydrate instances
+    I.instances = I.instances.map Models.Instance
 
     self = Models.Base(I).extend
       instances: ko.observableArray(I.instances)

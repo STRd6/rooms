@@ -35,15 +35,17 @@ namespace "Models", (Models) ->
         instance.interact()
 
     Text:
+      icon: "text_icon.jpg"
       tap: ({instance, editor}) ->
         editor.editText(instance)
 
     Link:
+      icon: "link.png"
       tap: ({instance, editor}) ->
         editor.editLink(instance)
 
     Move:
-      icon: "cursor.png"
+      icon: "move.png"
       start: ({event, element}) ->
         offset = element.offset()
 

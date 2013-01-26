@@ -2,12 +2,22 @@
 
 namespace "Models", (Models) ->
   Models.Editor = (I={}) ->
-    {room} = I
+
+    dataStore = Local.new "LOCODAT"
+    roomData = dataStore.get("rooms") or {}
+    roomIds = Object.keys roomData
+
+    room = Models.Room roomData[roomIds.first()]
+
+    debugger
 
     tools = [
-      Models.Tool.tools.Move
-      Models.Tool.tools.Interact
-    ]
+      "Move"
+      "Interact"
+      "Text"
+      "Link"
+    ].map (name) ->
+      Models.Tool.tools[name]
 
     toolbar = Models.Toolbar
       tools: tools
@@ -25,12 +35,17 @@ namespace "Models", (Models) ->
 
     self = Models.Base(I).extend
       editText: (instance) ->
-        self.textItem(instance)
+        self.textInstance(instance)
 
       save: ->
-        console.log room.toJSON()
+        roomData[room.uuid()] = room.toJSON()
+        dataStore.set "rooms", roomData
+
+      done: ->
+        self.textInstance(null)
 
       toolbar: toolbar
+      room: room
 
       currentTool: ->
         self.toolbar.activeTool()
@@ -53,8 +68,8 @@ namespace "Models", (Models) ->
         # Check for dumper
         trashOffset = self.element.find(".trash").offset()
         if event.pageX > trashOffset.left and event.pageY > trashOffset.top
-          room.removeInstance(item)
+          room.removeInstance(instance)
 
-    self.observe "textItem"
+    self.observe "textInstance"
 
     return self
