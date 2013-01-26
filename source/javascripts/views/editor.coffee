@@ -3,10 +3,10 @@ namespace "Views", (Views) ->
     {items, room} = I
 
     element = $(JST['editor']())
-    model =
+    model = Models.Editor
       room: room
-      save: ->
-        console.log room.toJSON()
+    # TOOD: Don't have model know explicitly of element
+    model.element = element
 
     ko.applyBindings model, element.get(0)
 
@@ -14,16 +14,8 @@ namespace "Views", (Views) ->
       model: room
     .appendTo(element)
 
-    tools = [
-      Models.Tool.tools.Move
-      Models.Tool.tools.Interact
-    ]
-
-    toolbar = Models.Toolbar
-      tools: tools
-
     Views.Toolbar
-      model: toolbar
+      model: model.toolbar
     .appendTo(element)
 
     Views.ItemPalette
@@ -35,44 +27,11 @@ namespace "Views", (Views) ->
 
     element.appendTo("body")
 
-    passToCurrentTool = (name) ->
-      return (event) ->
-        target = $(event.currentTarget)
-        item = ko.dataFor(this)
-
-        self.currentTool()[name]
-          element: target
-          event: event
-          item: item
-
-    self = Core(I).extend
-      currentTool: ->
-        toolbar.activeTool()
-
-      toolTap: passToCurrentTool("tap")
-      toolStart: passToCurrentTool("start")
-      toolMove: passToCurrentTool("move")
-
-      toolEnd: (event) ->
-        target = $(event.currentTarget)
-        item = ko.dataFor(this)
-
-        self.currentTool().end
-          element: target
-          event: event
-          item: item
-
-        # TODO: Generalize drop targets
-        # Check for dumper
-        trashOffset = element.find(".trash").offset()
-        if event.pageX > trashOffset.left and event.pageY > trashOffset.top
-          room.removeInstance(item)
-
     # Bind some events
     selector = ".room .item"
-    element.on "movestart", selector, self.toolStart
-    element.on "move", selector, self.toolMove
-    element.on "moveend", selector, self.toolEnd
-    element.on "touchstart mousedown", selector, self.toolTap
+    element.on "movestart", selector, model.toolStart
+    element.on "move", selector, model.toolMove
+    element.on "moveend", selector, model.toolEnd
+    element.on "touchstart mousedown", selector, model.toolTap
 
-    return self
+    return element

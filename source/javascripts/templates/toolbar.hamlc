@@ -1,2 +1,3 @@
 .toolbar(data-bind="foreach: tools")
   .tool(data-bind="css: { active: $data == $root.activeTool() }, click: $root.activeTool")>
+    %img(data-bind="attr: {src: src()}")

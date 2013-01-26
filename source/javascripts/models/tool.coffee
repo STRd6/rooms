@@ -12,7 +12,7 @@ namespace "Models", (Models) ->
 
     self = Models.Base(I).extend
       src: ->
-        I.icon
+        "/images/#{I.icon}"
 
       name: ->
         I.name
@@ -30,14 +30,20 @@ namespace "Models", (Models) ->
 
   Models.Tool.tools = {
     Interact:
-      tap: ({item}) ->
-        item.interact()
+      icon: "hand_icon.jpg"
+      tap: ({instance}) ->
+        instance.interact()
 
     Text:
-      tap: ({item, editor}) ->
-        editor.editText(item)
+      tap: ({instance, editor}) ->
+        editor.editText(instance)
+
+    Link:
+      tap: ({instance, editor}) ->
+        editor.editLink(instance)
 
     Move:
+      icon: "cursor.png"
       start: ({event, element}) ->
         offset = element.offset()
 
@@ -48,15 +54,15 @@ namespace "Models", (Models) ->
           x: x
           y: y
 
-      move: ({event, element, item}) ->
+      move: ({event, element, instance}) ->
         offset = element.parent().offset()
         initialOffset = element.data("initialOffset") or Point.ZERO
 
         x = event.pageX - offset.left - initialOffset.x
         y = event.pageY - offset.top - initialOffset.y
 
-        item.x(x)
-        item.y(y)
+        instance.x(x)
+        instance.y(y)
   }
 
   for name, data of Models.Tool.tools

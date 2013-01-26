@@ -2,3 +2,6 @@
   .actions
     %input.name(data-bind="value: room.name")
     %button.save(data-bind="click: save") Save
+
+  .textItem(data-bind="with: textItem")
+    %textarea(data-bind="value: text")
