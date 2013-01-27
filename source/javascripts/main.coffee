@@ -15,5 +15,4 @@ $ ->
 
   # TODO: Undo / Redo
   # TODO: Add select, group, delete tools
-  # TODO: Make all this dragging a "move" tool
-  # TODO: Localize events from document to editor
+  # TODO: Add rais/lower tools

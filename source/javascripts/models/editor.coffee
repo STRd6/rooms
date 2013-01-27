@@ -13,8 +13,8 @@ namespace "Models", (Models) ->
     room = ko.observable rooms().first()
 
     tools = [
-      "Move"
       "Interact"
+      "Move"
       "Text"
       "Link"
     ].map (name) ->
@@ -44,7 +44,6 @@ namespace "Models", (Models) ->
       save: ->
         roomData = ko.toJS(rooms)
         dataStore.set "rooms", roomData
-        console.log roomData
 
       newRoom: ->
         newRoom = Models.Room()

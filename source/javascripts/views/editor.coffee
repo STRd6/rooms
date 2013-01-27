@@ -55,12 +55,11 @@ namespace "Views", (Views) ->
           left: p.x
           zIndex: 9000
 
-
     $(".itemPalette").on "movestart", ".item", (e) ->
       activeItem = $(e.currentTarget)
       initDraggy(activeItem.parent(), e)
 
-    $(document).on "move", (e) ->
+    element.on "move", (e) ->
       p = getPos(e)
 
       if activeItem
@@ -68,11 +67,10 @@ namespace "Views", (Views) ->
           top: p.y
           left: p.x
 
-    $(document.body).on "moveend", (e) ->
+    element.on "moveend", (e) ->
       p = getPos(e)
 
       if activeItem
-        console.log $(".room").offset(), p
         {left, top} = $(".room").offset()
         x = p.x - left
         y = p.y - top
@@ -93,5 +91,24 @@ namespace "Views", (Views) ->
 
       activeItem = null
       draggy = null
+    # End Crazy Drag and Drop
+
+    getRoomByUuid = (uuid) ->
+      editor.rooms().filter (room) ->
+        room.uuid() is uuid
+      .first()
+
+    # Routes Madness
+    Sammy(->
+      @get "#:uuid", ->
+        {uuid} = @params
+
+        if room = getRoomByUuid(uuid)
+          editor.room(room)
+
+      @get '', ->
+        location.hash = editor.room().uuid()
+
+    ).run()
 
     return element

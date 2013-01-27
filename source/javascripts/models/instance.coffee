@@ -17,8 +17,7 @@ namespace "Models", (Models) ->
         if text = self.text()
           alert text
         else if link = self.link()
-          # GOTO Link
-          console.log "GOTO: #{link}"
+          location.hash = link
 
       toJSON: ->
         x: self.x()
