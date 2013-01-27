@@ -49,7 +49,7 @@ namespace "Models", (Models) ->
         newRoom = Models.Room()
 
         rooms.push(newRoom)
-        self.room(newRoom)
+        self.locationHash(newRoom.uuid())
 
       done: ->
         self.textInstance(null)
@@ -82,6 +82,12 @@ namespace "Models", (Models) ->
         if event.pageX > trashOffset.left and event.pageY > trashOffset.top
           room().removeInstance(instance)
 
-    self.observe "textInstance", "linkInstance"
+    self.observe "textInstance",
+      "linkInstance",
+      "locationHash"
+
+    self.locationHash(location.hash)
+    self.locationHash.subscribe (newValue) ->
+      location.hash = newValue
 
     return self

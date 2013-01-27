@@ -2,7 +2,7 @@
   .actions
     %input.name(data-bind="value: room().name")
     %button(data-bind="click: save") Save
-    %select(data-bind="options: rooms, value: room, optionsText: 'name'")
+    %select(data-bind="options: rooms, value: locationHash, optionsText: 'name', optionsValue: 'uuid'")
     %button(data-bind="click: newRoom") New
 
   .instanceText(data-bind="with: textInstance")
