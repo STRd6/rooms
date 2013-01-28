@@ -2,7 +2,7 @@ toolbarHeight = 40px
 itemPaletteWidth = 98px
 tinyMargin = 4px
 
-.item, .tool, .itemPalette, input, button, textarea, select
+.item, .tool, .itemPalette, .swatch, input, button, textarea, select
   pointer-events auto
 
 .editor
@@ -17,6 +17,14 @@ tinyMargin = 4px
   top 0
   left itemPaletteWidth + tinyMargin
   height 32px
+
+.colorChooser
+  position absolute
+  right 0
+  top 0
+  width 36px
+  max-height 100%
+  overflow-x none
 
 .itemPalette
   background-color backgroundColor
@@ -61,8 +69,9 @@ tinyMargin = 4px
   padding 2px 4px
   position absolute
 
-.tool
+.tool, .swatch
   border 2px solid transparent
+  border-radius 2px
   display inline-block
 
   height 32px

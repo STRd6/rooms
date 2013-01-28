@@ -4,6 +4,7 @@ namespace "Models", (Models) ->
       name: "Untitled"
       uuid: Math.uuid()
       instances: []
+      backgroundColor: "gray"
 
     # Re-hydrate instances
     I.instances = I.instances.map Models.Instance
@@ -18,7 +19,8 @@ namespace "Models", (Models) ->
         name: self.name()
         uuid: self.uuid()
         instances: self.instances().invoke "toJSON"
+        backgroundColor: self.backgroundColor()
 
-    self.observe "name", "uuid"
+    self.observe "name", "uuid", "backgroundColor"
 
     return self

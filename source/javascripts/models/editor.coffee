@@ -2,6 +2,22 @@
 
 namespace "Models", (Models) ->
   Models.Editor = (I={}) ->
+    backgroundColors = [
+      "#000000"
+      "#FFFFFF"
+      "#666666"
+      "#DCDCDC"
+      "#EB070E"
+      "#F69508"
+      "#FFDE49"
+      "#388326"
+      "#0246E3"
+      "#563495"
+      "#58C4F5"
+      "#E5AC99"
+      "#5B4635"
+      "#FFFEE9"
+    ]
 
     dataStore = Local.new "LOCODAT"
     roomData = dataStore.get("rooms") or []
@@ -35,6 +51,9 @@ namespace "Models", (Models) ->
           instance: instance
 
     self = Models.Base(I).extend
+      backgroundColors: backgroundColors
+      setBackgroundColor: (color) ->
+        room().backgroundColor(color)
       editText: (instance) ->
         self.textInstance(instance)
 

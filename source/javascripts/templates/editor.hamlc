@@ -5,6 +5,9 @@
     %select(data-bind="options: rooms, value: locationHash, optionsText: 'name', optionsValue: 'uuid'")
     %button(data-bind="click: newRoom") New
 
+  .colorChooser(data-bind="foreach: backgroundColors")
+    .swatch(data-bind="click: $root.setBackgroundColor, css: { active: $data == $root.room().backgroundColor }, style: {backgroundColor: $data}")
+
   .instanceText(data-bind="with: textInstance")
     %textarea(data-bind="value: text")
     %button(data-bind="click: $root.done") Done
