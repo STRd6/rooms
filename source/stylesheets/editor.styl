@@ -1,6 +1,8 @@
 toolbarHeight = 40px
+itemPaletteWidth = 98px
+tinyMargin = 4px
 
-.item, .tool, input, button, textarea, select
+.item, .tool, .itemPalette, input, button, textarea, select
   pointer-events auto
 
 .editor
@@ -10,9 +12,11 @@ toolbarHeight = 40px
   pointer-events none
 
 .actions
+  background-color backgroundColor
   position absolute
   top 0
-  left 98px
+  left itemPaletteWidth + tinyMargin
+  height 32px
 
 .itemPalette
   background-color backgroundColor
@@ -20,8 +24,9 @@ toolbarHeight = 40px
   left 0
   top 0
 
-  overflow hidden
-  width 98px
+  max-height 100%
+  overflow-x hidden
+  width itemPaletteWidth
   z-index 1
 
 .itemContainer
@@ -47,7 +52,7 @@ toolbarHeight = 40px
   background-color backgroundColor
   box-sizing border-box
   bottom 0
-  left 0
+  left itemPaletteWidth + tinyMargin
 
   display inline-block
 

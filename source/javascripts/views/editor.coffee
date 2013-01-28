@@ -1,6 +1,5 @@
 namespace "Views", (Views) ->
   Views.Editor = (I) ->
-    {items} = I
     {Instance} = Models
 
     element = $(JST['editor']())
@@ -19,10 +18,7 @@ namespace "Views", (Views) ->
       model: editor.toolbar
     .appendTo(element)
 
-    Views.ItemPalette
-      model:
-        items: items
-    .appendTo(element)
+    Views.ItemPalette().appendTo(element)
 
     element.append JST["trash"]()
 
